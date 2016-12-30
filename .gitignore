@@ -35,3 +35,4 @@ settings.xml
 .hg
 .hgignore
 app-development.properties
+application.properties
