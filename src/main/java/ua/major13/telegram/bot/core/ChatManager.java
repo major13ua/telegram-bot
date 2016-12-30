@@ -18,7 +18,7 @@ public class ChatManager {
     private Map<String, Chat> chats = new ConcurrentHashMap<>();
     
     public void put(Chat chat) {
-        LOG.info("Creating chat : " + chat.getId());
+        LOG.info("Creating subscribtion : " + chat.getId());
         chats.put(chat.getId(), chat);
     }
 
@@ -26,9 +26,9 @@ public class ChatManager {
         return chats.containsKey(chat.getId());
     }
 
-    public void removeChat (Chat chat) {
+    public boolean removeChat (Chat chat) {
         LOG.info("Removing chat : " + chat.getId());
-        chats.remove(chat.getId());
+        return chats.remove(chat.getId()) == null ? Boolean.FALSE : Boolean.TRUE;
     }
 
     public Map<String, Chat> list() {

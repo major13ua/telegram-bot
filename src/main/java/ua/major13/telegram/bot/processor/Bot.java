@@ -55,12 +55,21 @@ public class Bot {
 
     private static String DADDY_PAGE = "XXX is my Daddy!";
 
-    private String handleCreateChat() {
-        return  "Added to Q";
+    private String handleSubscribtion(IncomingMessage message) {
+        if (chatManager.contains(message.getChat())) {
+            return message.getFrom().getUsername() + " - already subscribed.";
+        } else {
+            chatManager.put(message.getChat());
+            return message.getFrom().getUsername() + " - now You are subscribed";
+        }
     }
 
-    private String handleRemoveChat() {
-        return  "Removed from Q";
+    private String handleUnsubscription(IncomingMessage message) {
+        if (chatManager.removeChat(message.getChat())) {
+            return message.getFrom().getUsername() + " - subscription canceled.";
+        } else {
+            return message.getFrom().getUsername() + " - You are not subscribed.";
+        }
     }
 
     private Commands parseMessage(String message) {
@@ -90,8 +99,8 @@ public class Bot {
         switch (command) {
             case DADDY: return DADDY_PAGE.replace(PATTERN, botDaddy);
             case JOKE:  return jokeService.getJoke();
-            case SUBSCRIBE : return handleCreateChat();
-            case UNSUBSCRIBE : return handleRemoveChat();
+            case SUBSCRIBE : return handleSubscribtion(message);
+            case UNSUBSCRIBE : return handleUnsubscription(message);
             case HELP : return HELP_PAGE;
             default : return "Unknown command ["+command+"]. Write /help";
         }
